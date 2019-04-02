@@ -1,8 +1,8 @@
-import {themeStore} from './ThemeStore'
+import ThemeStore from './ThemeStore'
 
 // combine
 const store = {
-    themeStore
+    themeStore: new ThemeStore()
 }
 
 export default store

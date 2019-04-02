@@ -2,15 +2,13 @@ import React from 'react'
 import './mainpage.scss'
 import {inject,observer} from 'mobx-react'
 
-// @inject(['themeColor'])
-// @observer
+@inject('themeStore')
+@observer
 class MainPage extends React.Component{
 
     render() {
         return (
-            <div style={{
-                color: this.props.themeColor
-            }}>abcd</div>
+            <div style={{backgroundColor: this.props.themeStore.themeColor}}>abcd</div>
         )
     }
 

@@ -7,7 +7,7 @@ import {BrowserRouter,Route,Switch} from 'react-router-dom'
 export default class Routes extends React.Component {
     render() {
         return (
-            <Provider store={store}>
+            <Provider {...store}>
                 <BrowserRouter>
                     <Switch>
                         <Route exact path={'/'} component={MainPage}/>
