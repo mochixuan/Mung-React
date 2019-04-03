@@ -1,5 +1,5 @@
 import React from 'react'
-import './mainpage.scss'
+import styles from './mainpage.scss'
 import {inject,observer} from 'mobx-react'
 
 @inject('themeStore')
@@ -7,8 +7,15 @@ import {inject,observer} from 'mobx-react'
 class MainPage extends React.Component{
 
     render() {
+        const themeBgObj = {backgroundColor: this.props.themeStore.themeColor}
         return (
-            <div style={{backgroundColor: this.props.themeStore.themeColor}}>abcd</div>
+            <div className={styles.container}>
+                <div className={styles.header} style={themeBgObj}>
+                    <div>主题</div>
+                    <div className={'base-title'}>Mung</div>
+                    <div>搜索</div>
+                </div>
+            </div>
         )
     }
 

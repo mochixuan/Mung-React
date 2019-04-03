@@ -47,3 +47,16 @@ html, body {
 }
 /* ---CSS reset end--- */
 
+/*---Base Style Start ---*/
+:global(.base-title) {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+:global(.base-d-icon-small) {
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+}
+/*---Base Style End ---*/
