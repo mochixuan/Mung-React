@@ -54,15 +54,16 @@ html, body {
   color: white;
 }
 
-:global(.base-small-icon) {
+:global(.base-small-circle-icon) {
   text-align: center;
   color: white;
-  font-weight: bold;
   font-size: 26px !important;
   display: block;
+  border-radius: 17px;
+  padding: 4px;
 
   &:active {
-    background-color: rgba(0,0,0,.2);
+    background-color: rgba(0,0,0,.1);
   }
 }
 /*---Base Style End ---*/

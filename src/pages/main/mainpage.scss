@@ -3,28 +3,21 @@
   display: flex;
   flex-direction: column;
 
-
   .header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     height: 48px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 11px;
+    padding-right: 11px;
+  }
 
-    .headerIcon {
-
-    }
-
-    .headerTitle {
-
-    }
-
-    .headerSearch {
-
-    }
-
+  .banner {
+    height: 200px;
+    box-sizing: border-box;
+    margin: 15px;
+    border-radius: 6px;
   }
 
 
