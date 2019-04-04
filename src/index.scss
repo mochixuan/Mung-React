@@ -54,9 +54,15 @@ html, body {
   color: white;
 }
 
-:global(.base-d-icon-small) {
-  width: 26px;
-  height: 26px;
-  background-repeat: no-repeat;
+:global(.base-small-icon) {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 26px !important;
+  display: block;
+
+  &:active {
+    background-color: rgba(0,0,0,.2);
+  }
 }
 /*---Base Style End ---*/

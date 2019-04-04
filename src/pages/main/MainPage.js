@@ -8,12 +8,13 @@ class MainPage extends React.Component{
 
     render() {
         const themeBgObj = {backgroundColor: this.props.themeStore.themeColor}
+
         return (
             <div className={styles.container}>
                 <div className={styles.header} style={themeBgObj}>
-                    <div>主题</div>
+                    <div></div>
                     <div className={'base-title'}>Mung</div>
-                    <div>搜索</div>
+                    <i className={'iconfont base-small-icon'}>&#60158;</i>
                 </div>
             </div>
         )
