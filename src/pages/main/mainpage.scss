@@ -1,3 +1,4 @@
+
 .container {
 
   display: flex;
@@ -14,11 +15,88 @@
   }
 
   .banner {
-    height: 200px;
+
     box-sizing: border-box;
     margin: 15px;
     border-radius: 6px;
+    position: relative;
+    height: 200px;
+
+    .banner-item {
+      display: flex;
+      align-items: center;
+      height: 200px;
+
+      .banner-item-icon {
+        width: 178*0.68px;
+        box-sizing: border-box;
+        height: 178px;
+        margin-left: 12px;
+        background-color: red;
+        border-radius: 4px;
+      }
+
+      .banner-item-right {
+        display: flex;
+        margin-left: 16px;
+        margin-right: 12px;
+        flex-direction: column;
+        overflow: hidden;
+
+        font-size: 14px;
+        color: white;
+
+        .banner-item-right-margin {
+          margin-top: 8px;
+          margin-bottom: 8px;
+        }
+
+        .banner-item-right-director {
+          display: flex;
+          align-items: center;
+
+          img {
+            width: 26px;
+            height: 26px;
+            border-radius: 13px;
+            margin: 0px;
+          }
+
+          span {
+            margin-left: 10px;
+          }
+        }
+
+        .banner-item-right-star {
+          display: flex;
+          align-items: center;
+
+          .banner-item-right-star-text {
+            margin-left: 10px;
+          }
+
+        }
+      }
+
+    }
+
+    .dot-swipe {
+      display: flex;
+      position: absolute;
+      right: 12px;
+      bottom: 10px;
+
+      .dot-view {
+        width: 16px;
+        height: 2px;
+        border-radius: 1px;
+        margin-left: 2px;
+        margin-right: 2px;
+      }
+    }
+
   }
+
 
 
 }

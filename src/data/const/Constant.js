@@ -1,4 +1,4 @@
-const ThemeItems = [
+export const ThemeItems = [
     {
         color:'#937eff',
         name: 'BlueViolet',
@@ -49,4 +49,7 @@ const ThemeItems = [
     },
 ]
 
-export {ThemeItems}
+export const NONE = 0
+export const LOADING = 1
+export const LOAD_SUCCESS = 2
+export const LOAD_ERROR = 3

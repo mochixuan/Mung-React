@@ -45,7 +45,7 @@ const generateErrorData = (code) => {
 
 const errorAnalysis = (result) => {
 
-    if(!result || result.code == undefined || result.code == null) {
+    if(!result || result.code === undefined || result.code === null) {
         return {
             code: REQUEST_ERROR,
             error: '网络超时,请重试!',
@@ -88,3 +88,21 @@ const errorAnalysis = (result) => {
 
     return result
 }
+
+
+// webpackDevServer.config.js 配置跨域问题
+// package.json 不能配置原因：网上有种说法是react-scripts高版本不支持，未再验证
+// "proxy": {
+//     // 使用：/api/movie/in_theaters
+//     // 访问 ‘/api/movie/in_theaters’ ==> 'https://api.douban.com/v2/movie/in_theaters'
+//     "/api": {
+//         //代理的目标服务器地址
+//         "target": "https://api.douban.com/v2",
+//             // https请求需要该设置
+//             "secure": false,
+//             // 必须设置该项
+//             "changeOrigin": true,
+//             // '/api/movie/in_theaters' 路径重写为：'/movie/in_theaters'
+//             "pathRewrite": {"^/api" : ""}
+//     }
+// }
