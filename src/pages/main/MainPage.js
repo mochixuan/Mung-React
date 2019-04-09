@@ -4,9 +4,9 @@ import {inject,observer} from 'mobx-react'
 import {requestMovieHot} from '../../data/net/HttpMovie'
 import {CODE_SUCCESS} from '../../data/net/HttpBase'
 import {showToast} from "../../utils/Util";
-import {LOAD_ERROR} from "../../data/const/Constant";
-import {color_66, color_ff,color_fc3,color_e6} from "../../styles/colors";
-import {Carousel,WingBlank} from 'antd-mobile'
+import {CateItems, LOAD_ERROR} from "../../data/const/Constant";
+import {color_66, color_ff,color_fc3,color_e6,color_f5} from "../../styles/colors";
+import {Carousel,WingBlank,Grid} from 'antd-mobile'
 import ReactStars from 'react-stars'
 
 const ONCE_REQUEST_COUNT = 20
@@ -45,6 +45,23 @@ class MainPage extends React.Component{
                 <WingBlank className={styles.banner} style={themeBgObj}>
                     {this.renderBannerView()}
                 </WingBlank>
+
+                <div className={styles.cate} style={themeBgObj}>
+                    {this.renderCateView()}
+                </div>
+
+                <div className={styles.list}>
+                    <Grid
+                        data={this.state.hotMovieItems.filter((item,index)=> index>=4)}
+                        columnNum={3}
+                        hasLine={false}
+                        square={false}
+                        renderItem={this.renderGirdItemView}
+                        itemStyle={{
+                            backgroundColor: color_f5
+                        }}
+                    />
+                </div>
 
             </div>
         )
@@ -124,6 +141,48 @@ class MainPage extends React.Component{
                     {dotItemViews}
                 </ul>
             </React.Fragment>
+        )
+    }
+
+    renderCateView = () => {
+        const styleClassNames = [
+            styles["cate-item-i1"],
+            styles["cate-item-i2"],
+            styles["cate-item-i3"],
+            styles["cate-item-i4"]
+        ]
+        return CateItems.map((item,index)=>{
+            return (
+                <div className={styles["cate-item"]} key={item.title+index}>
+                    <i className={'iconfont'+" "+styleClassNames[index]}>{item.icon}</i>
+                    <span>{item.title}</span>
+                </div>
+            )
+        })
+    }
+
+    renderGirdItemView = (item) => {
+        const themeBgObj = {backgroundColor: this.props.themeStore.themeColor}
+        return (
+            <div className={styles["list-item"]}>
+                <img
+                    src={item.images.large}
+                    className={styles["list-img"]}
+                />
+                <div className={styles["list-desc"]} style={themeBgObj}>
+                    <span className={styles["list-desc-title"]}>{item.title}</span>
+                    <div className={styles["list-desc-star"]}>
+                        <ReactStars
+                            count={5}
+                            size={14}
+                            color1={color_e6}
+                            color2={color_fc3}
+                            edit={false}
+                            value={item.rating.average/2} />
+                        <span style={{color: color_fc3}}>{item.rating.average.toFixed(1)}</span>
+                    </div>
+                </div>
+            </div>
         )
     }
 

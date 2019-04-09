@@ -49,6 +49,26 @@ export const ThemeItems = [
     },
 ]
 
+export const CateItems = [
+    {
+        title: 'Top250',
+        icon: '\ue636',
+        index:0,
+    }, {
+        title: '口碑榜',
+        icon: '\ue7a7',
+        index:1,
+    }, {
+        title: '北美票房榜',
+        icon: '\ue6ac',
+        index:2,
+    }, {
+        title: '新片榜',
+        icon: '\ue638',
+        index:3,
+    }
+]
+
 export const NONE = 0
 export const LOADING = 1
 export const LOAD_SUCCESS = 2

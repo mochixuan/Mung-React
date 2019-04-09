@@ -1,5 +1,6 @@
 export const color_00 = '#000'
 export const color_66 = '#666'
 export const color_e6 = '#E6E6E6'
+export const color_f5 = '#f5f5f5'
 export const color_fc3 = '#FFCC33'
 export const color_ff = '#fff'
