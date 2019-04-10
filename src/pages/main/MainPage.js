@@ -4,12 +4,19 @@ import {inject,observer} from 'mobx-react'
 import {requestMovieHot} from '../../data/net/HttpMovie'
 import {CODE_SUCCESS} from '../../data/net/HttpBase'
 import {showToast} from "../../utils/Util";
-import {CateItems, LOAD_ERROR} from "../../data/const/Constant";
+import {CateItems, LOAD_ERROR, LOADING, NONE} from "../../data/const/Constant";
 import {color_66, color_ff,color_fc3,color_e6,color_f5} from "../../styles/colors";
-import {Carousel,WingBlank,Grid} from 'antd-mobile'
+import {Carousel,WingBlank,Grid,PullToRefresh} from 'antd-mobile'
 import ReactStars from 'react-stars'
+import {renderScrollIndicator} from "../../styles/baseView";
+import ContentLoader, { Facebook } from 'react-content-loader'
 
 const ONCE_REQUEST_COUNT = 20
+const scrollStyles = {
+    height: document.documentElement.clientHeight - 48,
+    overflow: 'auto'
+}
+
 
 @inject('themeStore')
 @observer
@@ -19,10 +26,11 @@ class MainPage extends React.Component{
         super(props)
 
         this.state = {
+            scrollRefreshing: false,
             bannerIndex: 0,
             hotMovieItems: [],
             curPage: 0,
-            totalPage: -1
+            totalPage: -1,
         }
 
     }
@@ -32,37 +40,93 @@ class MainPage extends React.Component{
     }
 
     render() {
+
+        if (this.state.hotMovieItems.length === 0) return this.renderLoadingView()
+
         const themeBgObj = {backgroundColor: this.props.themeStore.themeColor}
         return (
             <div className={styles.container}>
-
                 <div className={styles.header} style={themeBgObj}>
                     <i className={'iconfont base-small-circle-icon'}>&#60140;</i>
                     <div className={'base-title'}>Mung</div>
                     <i className={'iconfont base-small-circle-icon'}>&#60158;</i>
                 </div>
 
-                <WingBlank className={styles.banner} style={themeBgObj}>
-                    {this.renderBannerView()}
-                </WingBlank>
+                <PullToRefresh
+                    damping={64}
+                    distanceToRefresh={48}
+                    style={scrollStyles}
+                    indicator={renderScrollIndicator(this.props.themeStore.themeColor)}
+                    direction={'up'}
+                    refreshing={this.state.scrollRefreshing}
+                    onRefresh={this.onScrollRefresh}>
 
-                <div className={styles.cate} style={themeBgObj}>
-                    {this.renderCateView()}
+                    <WingBlank className={styles.banner} style={themeBgObj}>
+                        {this.renderBannerView()}
+                    </WingBlank>
+
+                    <div className={styles.cate} style={themeBgObj}>
+                        {this.renderCateView()}
+                    </div>
+
+                    <div className={styles.list}>
+                        <Grid
+                            data={this.state.hotMovieItems.filter((item,index)=> index>=4)}
+                            columnNum={3}
+                            hasLine={false}
+                            square={false}
+                            renderItem={this.renderGirdItemView}
+                            itemStyle={{
+                                backgroundColor: color_f5
+                            }}
+                        />
+                    </div>
+
+                </PullToRefresh>
+
+            </div>
+        )
+    }
+
+    renderLoadingView = () => {
+        return (
+            <div style={{overflow: 'hidden',height: '100vh'}}>
+                <div>
+                    <ContentLoader height={'48'}>
+                        <rect width={'100%'} height={'100%'}/>
+                    </ContentLoader>
                 </div>
-
-                <div className={styles.list}>
-                    <Grid
-                        data={this.state.hotMovieItems.filter((item,index)=> index>=4)}
-                        columnNum={3}
-                        hasLine={false}
-                        square={false}
-                        renderItem={this.renderGirdItemView}
-                        itemStyle={{
-                            backgroundColor: color_f5
-                        }}
-                    />
+                <div style={{margin: '15px'}}>
+                    <ContentLoader height={'200'}>
+                        <rect rx={'6'} width="100%" height="100%" />
+                    </ContentLoader>
                 </div>
-
+                <div style={{marginLeft: '15px',marginRight: '15px'}}>
+                    <ContentLoader height={'72'}>
+                        <rect rx={'6'} width="100%" height="100%" />
+                    </ContentLoader>
+                </div>
+                <div style={{marginTop: '15px'}}>
+                    <ContentLoader height={'200'} >
+                        <rect x='1%' rx={'4'} width="32%" height="100%" />
+                        <rect x='34%' rx={'4'} width="32%" height="100%" />
+                        <rect x='67%' rx={'4'} width="32%" height="100%" />
+                    </ContentLoader>
+                </div>
+                <div style={{marginTop: '5px'}}>
+                    <ContentLoader height={'200'} >
+                        <rect x='1%' rx={'4'} width="32%" height="100%" />
+                        <rect x='34%' rx={'4'} width="32%" height="100%" />
+                        <rect x='67%' rx={'4'} width="32%" height="100%" />
+                    </ContentLoader>
+                </div>
+                <div style={{marginTop: '5px'}}>
+                    <ContentLoader height={'200'} >
+                        <rect x='1%' rx={'4'} width="32%" height="100%" />
+                        <rect x='34%' rx={'4'} width="32%" height="100%" />
+                        <rect x='67%' rx={'4'} width="32%" height="100%" />
+                    </ContentLoader>
+                </div>
             </div>
         )
     }
@@ -170,7 +234,7 @@ class MainPage extends React.Component{
                     className={styles["list-img"]}
                 />
                 <div className={styles["list-desc"]} style={themeBgObj}>
-                    <span className={styles["list-desc-title"]}>{item.title}</span>
+                    <span className={styles["list-desc-title"]+' '+'single-line-text'}>{item.title}</span>
                     <div className={styles["list-desc-star"]}>
                         <ReactStars
                             count={5}
@@ -186,18 +250,39 @@ class MainPage extends React.Component{
         )
     }
 
-    onRequestData() {
+    onScrollRefresh = () => {
+        // 有数据后才可上拉刷新
+        if (this.state.hotMovieItems.length > 0) {
+            this.onRequestData()
+        }
+    }
+
+    onRequestData = () => {
+
+        if (this.state.hotMovieItems.length > 0) {
+            this.setState({scrollRefreshing: true})
+        }
+
+        if (this.state.totalPage >= 0 && this.state.totalPage <= this.state.curPage) {
+            this.setState({scrollRefreshing: false})
+            showToast("没有数据了亲!",NONE)
+            return
+        }
+
+        // 豆瓣API有问题
         requestMovieHot(this.state.curPage+1,ONCE_REQUEST_COUNT)
             .then((result)=>{
-                console.warn('result',result)
-                if (result.code === CODE_SUCCESS) {
+                console.warn(result)
+                if (result.code === CODE_SUCCESS && result.subjects) {
                     this.setState({
                         curPage: result.start,
                         totalPage: result.total,
-                        hotMovieItems: result.subjects
+                        hotMovieItems: [...this.state.hotMovieItems,...result.subjects],
+                        scrollRefreshing: false,
                     })
                 } else {
                     showToast(result.error,LOAD_ERROR)
+                    this.setState({scrollRefreshing: false})
                 }
             })
     }

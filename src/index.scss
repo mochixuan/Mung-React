@@ -76,4 +76,13 @@ html, body {
   font-size: 14px;
   color: white;
 }
+
+:global(.single-line-text) {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
+
 /*---Base Style End ---*/
