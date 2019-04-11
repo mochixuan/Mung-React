@@ -1,0 +1,27 @@
+.router-enter,.router-appear {
+    opacity: 0;
+    transform: translateY(2%);
+}
+.router-enter-active,.router-appear-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 300ms ease-in;
+}
+.router-enter-done {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.router-exit {
+    opacity: 1;
+    transform: translateY(2%);
+}
+.router-exit-active {
+    opacity: 0;
+    transform: translateY(0);
+    transition: all 300ms ease-in;
+}
+.router-exit-done {
+    opacity: 0;
+    transform: translateY(0);
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './mainpage.scss'
 import {inject,observer} from 'mobx-react'
+import {Link} from 'react-router-dom'
 import {requestMovieHot} from '../../data/net/HttpMovie'
 import {CODE_SUCCESS} from '../../data/net/HttpBase'
 import {showToast} from "../../utils/Util";
@@ -47,7 +48,7 @@ class MainPage extends React.Component{
         return (
             <div className={styles.container}>
                 <div className={styles.header} style={themeBgObj}>
-                    <i className={'iconfont base-small-circle-icon'}>&#60140;</i>
+                    <Link to={'/theme'} className={'iconfont base-small-circle-icon'}>&#60140;</Link>
                     <div className={'base-title'}>Mung</div>
                     <i className={'iconfont base-small-circle-icon'}>&#60158;</i>
                 </div>
@@ -272,7 +273,6 @@ class MainPage extends React.Component{
         // 豆瓣API有问题
         requestMovieHot(this.state.curPage+1,ONCE_REQUEST_COUNT)
             .then((result)=>{
-                console.warn(result)
                 if (result.code === CODE_SUCCESS && result.subjects) {
                     this.setState({
                         curPage: result.start,
