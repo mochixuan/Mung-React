@@ -19,7 +19,7 @@ const scrollStyles = {
 }
 
 
-@inject('themeStore')
+@inject('themeStore','homeStore')
 @observer
 class MainPage extends React.Component{
 
@@ -29,7 +29,6 @@ class MainPage extends React.Component{
         this.state = {
             scrollRefreshing: false,
             bannerIndex: 0,
-            hotMovieItems: [],
             curPage: 0,
             totalPage: -1,
         }
@@ -37,12 +36,14 @@ class MainPage extends React.Component{
     }
 
     componentDidMount() {
-        this.onRequestData()
+        if (this.props.homeStore.hotMovieItems.length) {
+            this.onRequestData()
+        }
     }
 
     render() {
 
-        if (this.state.hotMovieItems.length === 0) return this.renderLoadingView()
+        if (this.props.homeStore.hotMovieItems.length === 0) return this.renderLoadingView()
 
         const themeBgObj = {backgroundColor: this.props.themeStore.themeColor}
         return (
@@ -72,7 +73,7 @@ class MainPage extends React.Component{
 
                     <div className={styles.list}>
                         <Grid
-                            data={this.state.hotMovieItems.filter((item,index)=> index>=4)}
+                            data={this.props.homeStore.hotMovieItems.filter((item,index)=> index>=4)}
                             columnNum={3}
                             hasLine={false}
                             square={false}
@@ -141,13 +142,13 @@ class MainPage extends React.Component{
     renderBannerView = () => {
 
         // Carousel开始没有数据之后出数据第一层会不动
-        if (this.state.hotMovieItems.length === 0) {
+        if (this.props.homeStore.hotMovieItems.length === 0) {
             return undefined
         }
 
         const textMarginClass = styles["banner-item-right-margin"]
 
-        const bannerItemsView = this.state.hotMovieItems
+        const bannerItemsView = this.props.homeStore.hotMovieItems
             .filter((item,index) => index<4)
             .map((item,index)=>{
                 return (
@@ -183,7 +184,7 @@ class MainPage extends React.Component{
                 )
             })
 
-        const dotItemViews = this.state.hotMovieItems
+        const dotItemViews = this.props.homeStore.hotMovieItems
             .filter((item,index) => index < 4)
             .map((item,index)=>{
                 const dotColor = {backgroundColor: this.state.bannerIndex === index ? color_ff : color_66 }
@@ -253,14 +254,14 @@ class MainPage extends React.Component{
 
     onScrollRefresh = () => {
         // 有数据后才可上拉刷新
-        if (this.state.hotMovieItems.length > 0) {
+        if (this.props.homeStore.hotMovieItems.length > 0) {
             this.onRequestData()
         }
     }
 
     onRequestData = () => {
 
-        if (this.state.hotMovieItems.length > 0) {
+        if (this.props.homeStore.hotMovieItems.length > 0) {
             this.setState({scrollRefreshing: true})
         }
 
@@ -277,9 +278,9 @@ class MainPage extends React.Component{
                     this.setState({
                         curPage: result.start,
                         totalPage: result.total,
-                        hotMovieItems: [...this.state.hotMovieItems,...result.subjects],
                         scrollRefreshing: false,
                     })
+                    this.props.homeStore.refreshHotMovieItems([...this.props.homeStore.hotMovieItems,...result.subjects])
                 } else {
                     showToast(result.error,LOAD_ERROR)
                     this.setState({scrollRefreshing: false})
