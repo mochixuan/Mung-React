@@ -1,51 +1,54 @@
 import React from 'react'
 import styles from './mainpage.scss'
-import {inject,observer} from 'mobx-react'
+import {inject, observer} from 'mobx-react'
 import {Link} from 'react-router-dom'
-import {requestMovieHot} from '../../data/net/HttpMovie'
-import {CODE_SUCCESS} from '../../data/net/HttpBase'
-import {showToast} from "../../utils/Util";
-import {CateItems, LOAD_ERROR, LOADING, NONE} from "../../data/const/Constant";
-import {color_66, color_ff,color_fc3,color_e6,color_f5} from "../../styles/colors";
-import {Carousel,WingBlank,Grid,PullToRefresh} from 'antd-mobile'
+import {CateItems} from "../../data/const/Constant";
+import {color_66, color_e6, color_f5, color_fc3, color_ff} from "../../styles/colors";
+import {Carousel, Grid, PullToRefresh, WingBlank} from 'antd-mobile'
 import ReactStars from 'react-stars'
 import {renderScrollIndicator} from "../../styles/baseView";
-import ContentLoader, { Facebook } from 'react-content-loader'
+import ContentLoader from 'react-content-loader'
 
-const ONCE_REQUEST_COUNT = 20
 const scrollStyles = {
     height: document.documentElement.clientHeight - 48,
     overflow: 'auto'
 }
 
+let defaultScrollTop = 0
 
 @inject('themeStore','homeStore')
 @observer
 class MainPage extends React.Component{
 
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            scrollRefreshing: false,
-            bannerIndex: 0,
-            curPage: 0,
-            totalPage: -1,
+    componentWillUnmount() {
+        // 1. 实现滑动到原来位置: 两步
+        let pullToRefreshRef = document.getElementById("pullToRefreshRef");
+        if (pullToRefreshRef) {
+            defaultScrollTop = pullToRefreshRef.scrollTop;
         }
 
     }
 
     componentDidMount() {
-        if (this.props.homeStore.hotMovieItems.length) {
-            this.onRequestData()
+        const {hotMovieItems,requestData} = this.props.homeStore
+        if (hotMovieItems.length === 0) requestData()
+
+        // 2. 实现滑动到原来位置: 两步
+        let pullToRefreshRef = document.getElementById("pullToRefreshRef");
+        if (pullToRefreshRef && hotMovieItems.length !== 0) {
+            pullToRefreshRef.scrollTop = defaultScrollTop;
         }
     }
 
+
     render() {
 
-        if (this.props.homeStore.hotMovieItems.length === 0) return this.renderLoadingView()
+        const {themeColor} = this.props.themeStore
+        const {hotMovieItems,scrollRefreshing} = this.props.homeStore
 
-        const themeBgObj = {backgroundColor: this.props.themeStore.themeColor}
+        if (hotMovieItems.length === 0) return this.renderLoadingView()
+
+        const themeBgObj = {backgroundColor: themeColor}
         return (
             <div className={styles.container}>
                 <div className={styles.header} style={themeBgObj}>
@@ -55,12 +58,13 @@ class MainPage extends React.Component{
                 </div>
 
                 <PullToRefresh
+                    id={'pullToRefreshRef'}
                     damping={64}
                     distanceToRefresh={48}
                     style={scrollStyles}
-                    indicator={renderScrollIndicator(this.props.themeStore.themeColor)}
+                    indicator={renderScrollIndicator(themeColor)}
                     direction={'up'}
-                    refreshing={this.state.scrollRefreshing}
+                    refreshing={scrollRefreshing}
                     onRefresh={this.onScrollRefresh}>
 
                     <WingBlank className={styles.banner} style={themeBgObj}>
@@ -73,7 +77,7 @@ class MainPage extends React.Component{
 
                     <div className={styles.list}>
                         <Grid
-                            data={this.props.homeStore.hotMovieItems.filter((item,index)=> index>=4)}
+                            data={hotMovieItems.filter((item,index)=> index>=4)}
                             columnNum={3}
                             hasLine={false}
                             square={false}
@@ -133,22 +137,18 @@ class MainPage extends React.Component{
         )
     }
 
-    onSwipeCallBack = (swipeIndex) => {
-        this.setState({
-            bannerIndex: swipeIndex
-        })
-    }
-
     renderBannerView = () => {
 
+        const {hotMovieItems, bannerIndex, setBannerIndex} = this.props.homeStore
+
         // Carousel开始没有数据之后出数据第一层会不动
-        if (this.props.homeStore.hotMovieItems.length === 0) {
+        if (hotMovieItems.length === 0) {
             return undefined
         }
 
         const textMarginClass = styles["banner-item-right-margin"]
 
-        const bannerItemsView = this.props.homeStore.hotMovieItems
+        const bannerItemsView = hotMovieItems
             .filter((item,index) => index<4)
             .map((item,index)=>{
                 return (
@@ -184,10 +184,10 @@ class MainPage extends React.Component{
                 )
             })
 
-        const dotItemViews = this.props.homeStore.hotMovieItems
+        const dotItemViews = hotMovieItems
             .filter((item,index) => index < 4)
             .map((item,index)=>{
-                const dotColor = {backgroundColor: this.state.bannerIndex === index ? color_ff : color_66 }
+                const dotColor = {backgroundColor: bannerIndex === index ? color_ff : color_66 }
                 return (
                     <li className={styles["dot-view"]} style={dotColor} key={item.id+index}></li>
                 )
@@ -199,7 +199,7 @@ class MainPage extends React.Component{
                     autoplay={true}
                     infinite={true}
                     dots={false}
-                    afterChange={this.onSwipeCallBack}
+                    afterChange={setBannerIndex}
                 >
                     {bannerItemsView}
                 </Carousel>
@@ -228,6 +228,7 @@ class MainPage extends React.Component{
     }
 
     renderGirdItemView = (item) => {
+
         const themeBgObj = {backgroundColor: this.props.themeStore.themeColor}
         return (
             <div className={styles["list-item"]}>
@@ -253,39 +254,9 @@ class MainPage extends React.Component{
     }
 
     onScrollRefresh = () => {
+        const {hotMovieItems,requestData} = this.props.homeStore
         // 有数据后才可上拉刷新
-        if (this.props.homeStore.hotMovieItems.length > 0) {
-            this.onRequestData()
-        }
-    }
-
-    onRequestData = () => {
-
-        if (this.props.homeStore.hotMovieItems.length > 0) {
-            this.setState({scrollRefreshing: true})
-        }
-
-        if (this.state.totalPage >= 0 && this.state.totalPage <= this.state.curPage) {
-            this.setState({scrollRefreshing: false})
-            showToast("没有数据了亲!",NONE)
-            return
-        }
-
-        // 豆瓣API有问题
-        requestMovieHot(this.state.curPage+1,ONCE_REQUEST_COUNT)
-            .then((result)=>{
-                if (result.code === CODE_SUCCESS && result.subjects) {
-                    this.setState({
-                        curPage: result.start,
-                        totalPage: result.total,
-                        scrollRefreshing: false,
-                    })
-                    this.props.homeStore.refreshHotMovieItems([...this.props.homeStore.hotMovieItems,...result.subjects])
-                } else {
-                    showToast(result.error,LOAD_ERROR)
-                    this.setState({scrollRefreshing: false})
-                }
-            })
+        if (hotMovieItems.length > 0) requestData()
     }
 
 }

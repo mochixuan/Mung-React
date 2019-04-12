@@ -3,7 +3,7 @@
 }
 .router-enter-active,.router-appear-active {
     opacity: 1;
-    transition: all 300ms ease-in;
+    transition: all 3000ms ease-in;
 }
 .router-enter-done {
     opacity: 1;
@@ -14,7 +14,7 @@
 }
 .router-exit-active {
     opacity: 0;
-    transition: all 300ms ease-in;
+    transition: all 3000ms ease-in;
 }
 .router-exit-done {
     opacity: 0;

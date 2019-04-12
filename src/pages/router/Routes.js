@@ -10,6 +10,13 @@ class Routes extends React.Component{
 
     render() {
 
+        return (
+            <Switch>
+                <Route exact path={'/'} component={MainPage}/>
+                <Route path={'/theme'} component={ThemePage}/>
+            </Switch>
+        )
+
         const location = this.props.location
 
         return (
@@ -17,7 +24,7 @@ class Routes extends React.Component{
                 <CSSTransition
                     key={location.key}
                     classNames={'router'}
-                    timeout={300}
+                    timeout={3000}
                     appear={true}
                 >
                     <Switch>
