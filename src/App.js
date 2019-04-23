@@ -2,7 +2,7 @@ import React from "react";
 import store from "./mobx";
 import {Provider} from 'mobx-react'
 import {BrowserRouter} from 'react-router-dom'
-import Routes from './pages/router/Routes'
+import Routes from './pages/Routes'
 
 class App extends React.Component{
     render() {

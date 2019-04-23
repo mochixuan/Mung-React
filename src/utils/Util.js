@@ -17,3 +17,7 @@ export const showToast = (data,state) => {
             break
     }
 }
+
+export const enterDetailPage = (history,id) => {
+    history.push(`detail/${id}`)
+}

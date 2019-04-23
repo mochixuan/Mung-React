@@ -19,3 +19,5 @@ const MOVIE_DETAIL_URL = '/movie/subject/'
 const MOVIE_SEARCH_URL = '/movie/search'
 
 export const requestMovieHot = (start,count) => BaseGetRequest(`${BASE_URL+MOVIE_HOT_URL}?start=${start}&count=${count}`)
+
+export const requestMovieDetail = (id) => BaseGetRequest(BASE_URL+MOVIE_DETAIL_URL+id)

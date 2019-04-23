@@ -8,13 +8,14 @@ import {Carousel, Grid, PullToRefresh, WingBlank} from 'antd-mobile'
 import ReactStars from 'react-stars'
 import {renderScrollIndicator} from "../../styles/baseView";
 import ContentLoader from 'react-content-loader'
+import {enterDetailPage} from '../../utils/Util'
 
 const scrollStyles = {
     height: document.documentElement.clientHeight - 48,
     overflow: 'auto'
 }
 
-let defaultScrollTop = 0
+let MainPageScrollTop = 0
 
 @inject('themeStore','homeStore')
 @observer
@@ -22,11 +23,10 @@ class MainPage extends React.Component{
 
     componentWillUnmount() {
         // 1. 实现滑动到原来位置: 两步
-        let pullToRefreshRef = document.getElementById("pullToRefreshRef");
-        if (pullToRefreshRef) {
-            defaultScrollTop = pullToRefreshRef.scrollTop;
+        const ptfElement = document.getElementById("main-page-ptf");
+        if (ptfElement) {
+            MainPageScrollTop = ptfElement.scrollTop;
         }
-
     }
 
     componentDidMount() {
@@ -34,9 +34,9 @@ class MainPage extends React.Component{
         if (hotMovieItems.length === 0) requestData()
 
         // 2. 实现滑动到原来位置: 两步
-        let pullToRefreshRef = document.getElementById("pullToRefreshRef");
-        if (pullToRefreshRef && hotMovieItems.length !== 0) {
-            pullToRefreshRef.scrollTop = defaultScrollTop;
+        const ptfElement = document.getElementById("main-page-ptf");
+        if (ptfElement && hotMovieItems.length !== 0) {
+            ptfElement.scrollTop = MainPageScrollTop;
         }
     }
 
@@ -58,7 +58,7 @@ class MainPage extends React.Component{
                 </div>
 
                 <PullToRefresh
-                    id={'pullToRefreshRef'}
+                    id={'main-page-ptf'}
                     damping={64}
                     distanceToRefresh={48}
                     style={scrollStyles}
@@ -152,7 +152,13 @@ class MainPage extends React.Component{
             .filter((item,index) => index<4)
             .map((item,index)=>{
                 return (
-                    <div key={item.id+index} className={styles["banner-item"]}>
+                    <div
+                        key={item.id+index}
+                        className={styles["banner-item"]}
+                        onClick={()=>{
+                            enterDetailPage(this.props.history,item.id)
+                        }}
+                    >
                         <img
                             src={item.images.large}
                             className={styles["banner-item-icon"]}
@@ -231,7 +237,12 @@ class MainPage extends React.Component{
 
         const themeBgObj = {backgroundColor: this.props.themeStore.themeColor}
         return (
-            <div className={styles["list-item"]}>
+            <div
+                className={styles["list-item"]}
+                onClick={()=>{
+                    enterDetailPage(this.props.history,item.id)
+                }}
+            >
                 <img
                     src={item.images.large}
                     className={styles["list-img"]}

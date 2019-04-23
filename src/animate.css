@@ -1,0 +1,31 @@
+.wx-a-scale-enter,.wx-a-scale-appear {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.wx-a-scale-enter-active,.wx-a-scale-appear-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 300ms ease-in;
+}
+
+.wx-a-scale-enter-done {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.wx-a-scale-exit {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.wx-a-scale-exit-active {
+    opacity: 0;
+    transform: scale(0);
+    transition: all 300ms ease-in;
+}
+
+.wx-a-scale-exit-done {
+    opacity: 0;
+    transform: scale(0);
+}
