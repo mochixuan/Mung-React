@@ -30,8 +30,8 @@ class ThemePage extends React.Component{
 
         return (
             <div className={styles.container}>
+                <Link to={'/'} className={'iconfont base-small-circle-icon '+styles.back}>&#xeb09;</Link>
                 <div className={styles.header} style={themeBgObj}>
-                    <Link to={'/'} className={'iconfont base-small-circle-icon '+styles.back}>&#xeb09;</Link>
                     <div className={'base-title'}>主题颜色</div>
                 </div>
                 {this.renderGirdItemView()}

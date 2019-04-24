@@ -1,5 +1,5 @@
 import {observable,action,runInAction} from 'mobx'
-import {requestMovieHot} from '../data/net/HttpMovie'
+import {requestMovieDetail} from '../data/net/HttpMovie'
 import {CODE_SUCCESS} from "../data/net/HttpBase";
 import {LOAD_ERROR, NONE} from "../data/const/Constant";
 import {showToast} from "../utils/Util";
@@ -10,10 +10,25 @@ const ONCE_REQUEST_COUNT = 20
  */
 export default class DetailStore {
 
+    @observable baseData = null
+    @observable isOpen = false
 
+    @action requestDetailBaseData = (id) => {
+        requestMovieDetail(id)
+            .then((result)=>{
+                console.warn(result)
+                if (result.code === CODE_SUCCESS) {
+                    runInAction(()=>{
+                        this.baseData = result
+                    })
+                } else {
+                    showToast(result.error,LOAD_ERROR)
+                }
+            })
+    }
 
-    @action requestData = () => {
-
+    @action openIntro = () => {
+        this.isOpen = true;
     }
 
 }
