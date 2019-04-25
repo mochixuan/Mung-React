@@ -82,9 +82,7 @@ class MainPage extends React.Component{
                             hasLine={false}
                             square={false}
                             renderItem={this.renderGirdItemView}
-                            itemStyle={{
-                                backgroundColor: color_f5
-                            }}
+                            itemStyle={{backgroundColor: color_f5}}
                         />
                     </div>
 

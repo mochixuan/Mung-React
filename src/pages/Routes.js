@@ -3,6 +3,7 @@ import {Route,Switch,withRouter} from 'react-router-dom'
 import MainPage from './main/MainPage'
 import ThemePage from "./theme/ThemePage";
 import DetailPage from "./detail/DetailPage";
+import PhotoDetailPage from './phote/PhotoDetailPage'
 
 @withRouter
 class Routes extends React.Component{
@@ -14,6 +15,7 @@ class Routes extends React.Component{
                 <Route exact path={'/'} component={MainPage}/>
                 <Route path={'/theme'} component={ThemePage}/>
                 <Route path={'/detail/:id'} component={DetailPage}/>
+                <Route path={'/photo/:id'} component={PhotoDetailPage}/>
             </Switch>
         )
     }

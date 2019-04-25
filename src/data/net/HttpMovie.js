@@ -1,7 +1,10 @@
 /*用了代理解决跨域所以头未/api了*/
-import {BaseGetRequest} from "./HttpBase";
+import {BaseGetRequest,KEY_APP_ID} from "./HttpBase";
 
 const BASE_URL = "/api"
+
+
+
 
 /*正在热映*/
 const MOVIE_HOT_URL = "/movie/in_theaters"
@@ -21,3 +24,7 @@ const MOVIE_SEARCH_URL = '/movie/search'
 export const requestMovieHot = (start,count) => BaseGetRequest(`${BASE_URL+MOVIE_HOT_URL}?start=${start}&count=${count}`)
 
 export const requestMovieDetail = (id) => BaseGetRequest(BASE_URL+MOVIE_DETAIL_URL+id)
+
+export const requestMoviePhotos = (id,count) => BaseGetRequest(BASE_URL+MOVIE_DETAIL_URL+id+'/photos'+"?count="+count+"&"+KEY_APP_ID.name+"="+KEY_APP_ID.value)
+
+export const requestMovieDiscuss = (id,start,count) => BaseGetRequest(BASE_URL+MOVIE_DETAIL_URL+id+"/comments"+"?start="+start+"&count="+count+"&"+KEY_APP_ID.name+"="+KEY_APP_ID.value)

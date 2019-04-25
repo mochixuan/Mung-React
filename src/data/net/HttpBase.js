@@ -2,9 +2,9 @@ const NETWORK_TIMEOUT = 15000; //超时时间15秒
 
 // 数据格式太乱,简单处理一下
 
-export const BaseGetRequest = (urlSuffix) => {
+export const BaseGetRequest = (url) => {
     const opts = {method: 'GET'}
-    return timeoutPromise(fetch(urlSuffix,opts),NETWORK_TIMEOUT)
+    return timeoutPromise(fetch(url,opts),NETWORK_TIMEOUT)
         .then((result)=> errorAnalysis(result))
         .catch((error)=> errorAnalysis(error))
 
@@ -87,6 +87,11 @@ const errorAnalysis = (result) => {
     }
 
     return result
+}
+
+export const KEY_APP_ID = {
+    name: 'apikey',
+    value: '0df993c66c0c636e29ecbb5344252a4a'
 }
 
 
