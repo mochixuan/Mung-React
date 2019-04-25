@@ -129,7 +129,7 @@ class DetailPage extends React.Component{
                 stillsView = stillPhones.map((item,index)=>{
                     if (stillPhones.length-1 === index) {
                         return (
-                            <div key={item.image+index} onClick={this.enterPhotoDetailPage}>
+                            <div key={item.image+index} onClick={()=>this.enterPhotoDetailPage(item.photos_count)}>
                                 <div className={styles["content-stills-more"]}>
                                     <span className={styles["content-stills-more-text"]}>全部剧照</span>
                                     <div className={styles["content-stills-more-line"]}/>
@@ -265,8 +265,11 @@ class DetailPage extends React.Component{
         this.props.detailStore.requestMovieDiscuss(movieId)
     }
 
-    enterPhotoDetailPage = () => {
-        this.props.history.push(`/photo/${movieId}`)
+    enterPhotoDetailPage = (count) => {
+        this.props.history.push({
+            pathname:`/photo/${movieId}`,
+            search: `count=${count}`
+        })
     }
 
 }

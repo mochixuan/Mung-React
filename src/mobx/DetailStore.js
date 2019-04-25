@@ -23,6 +23,7 @@ export default class DetailStore {
         rowHasChanged: (row1, row2) => row1 !== row2,
     });
 
+    //为了实现返回时界面不重新加载功能
     @action initData = () => {
         this.headerOpacity = 0;
         this.baseData = null
@@ -97,7 +98,6 @@ export default class DetailStore {
             return
         }
 
-        // 豆瓣API有问题
         requestMovieDiscuss(id,this.curPage+1,8)
             .then((result)=>{
                 if (result.code === CODE_SUCCESS && result.comments) {
