@@ -25,7 +25,7 @@ class DetailPage extends React.Component{
     componentWillMount() {
         const newMovieId = this.props.match.params.id;
         // 是否需要重置
-        if (newMovieId == null || movieId != newMovieId) {
+        if (newMovieId == null || movieId !== newMovieId) {
             movieId = newMovieId
             DetailPageScrollTop = 0
             this.props.detailStore.initData() //新页面，主要是为了返回是恢复到原来的位置
@@ -77,7 +77,7 @@ class DetailPage extends React.Component{
                     <div className={styles["header-fixed-title"]}>{baseData ? baseData.title : ''}</div>
                 </div>
                 <div className={styles["header-fixed"]}>
-                    <Link to={'/'} className={'iconfont base-small-circle-icon '+styles.back}>&#xeb09;</Link>
+                    <div onClick={this.props.history.goBack} className={'iconfont base-small-circle-icon '+styles.back}>&#xeb09;</div>
                 </div>
                 <div className={styles.header} id={'detail-page-header'}>
                     <img

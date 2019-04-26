@@ -8,7 +8,7 @@ import {Carousel, Grid, PullToRefresh, WingBlank} from 'antd-mobile'
 import ReactStars from 'react-stars'
 import {renderScrollIndicator} from "../../styles/baseView";
 import ContentLoader from 'react-content-loader'
-import {enterDetailPage} from '../../utils/Util'
+import {enterDetailPage,enterListPage} from '../../utils/Util'
 
 const scrollStyles = {
     height: document.documentElement.clientHeight - 48,
@@ -223,7 +223,9 @@ class MainPage extends React.Component{
         ]
         return CateItems.map((item,index)=>{
             return (
-                <div className={styles["cate-item"]} key={item.title+index}>
+                <div className={styles["cate-item"]} key={item.title+index} onClick={()=>{
+                    enterListPage(this.props.history,item.title)
+                }}>
                     <i className={'iconfont'+" "+styleClassNames[index]}>{item.icon}</i>
                     <span>{item.title}</span>
                 </div>

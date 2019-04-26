@@ -1,5 +1,5 @@
-import {observable,action,runInAction} from 'mobx'
-import {requestMovieDetail, requestMovieHot, requestMoviePhotos,requestMovieDiscuss} from '../data/net/HttpMovie'
+import {action, observable, runInAction} from 'mobx'
+import {requestMovieDetail, requestMovieDiscuss, requestMoviePhotos} from '../data/net/HttpMovie'
 import {CODE_SUCCESS} from "../data/net/HttpBase";
 import {LOAD_ERROR, LOAD_SUCCESS, LOADING, NONE} from "../data/const/Constant";
 import {showToast} from "../utils/Util";

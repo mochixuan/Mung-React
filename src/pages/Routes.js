@@ -4,6 +4,7 @@ import MainPage from './main/MainPage'
 import ThemePage from "./theme/ThemePage";
 import DetailPage from "./detail/DetailPage";
 import PhotoDetailPage from './phote/PhotoDetailPage'
+import MovieListPage from './list/MovieListPage'
 
 @withRouter
 class Routes extends React.Component{
@@ -16,6 +17,7 @@ class Routes extends React.Component{
                 <Route path={'/theme'} component={ThemePage}/>
                 <Route path={'/detail/:id'} component={DetailPage}/>
                 <Route path={'/photo/:id'} component={PhotoDetailPage}/>
+                <Route path={'/list'} component={MovieListPage}/>
             </Switch>
         )
     }
