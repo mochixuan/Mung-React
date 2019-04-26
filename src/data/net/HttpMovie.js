@@ -19,4 +19,4 @@ export const requestMoviePhotos = (id,count) => BaseGetRequest(BASE_URL+MOVIE_DE
 
 export const requestMovieDiscuss = (id,start,count) => BaseGetRequest(BASE_URL+MOVIE_DETAIL_URL+id+"/comments"+"?start="+start+"&count="+count+"&"+KEY_APP_ID.name+"="+KEY_APP_ID.value)
 
-export const requestListMovie = (url,start,count) => BaseGetRequest(url+"?start="+start+"&count="+count+"&"+KEY_APP_ID.name+"="+KEY_APP_ID.value)
+export const requestListMovie = (url,start,count,query) => BaseGetRequest(url+"?start="+start+"&count="+count+"&q="+query+"&"+KEY_APP_ID.name+"="+KEY_APP_ID.value)

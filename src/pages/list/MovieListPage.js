@@ -6,6 +6,7 @@ import {renderScrollIndicator} from "../../styles/baseView";
 import {ListView, PullToRefresh} from 'antd-mobile'
 import {color_e6, color_fc3} from "../../styles/colors";
 import ReactStars from 'react-stars'
+import ContentLoader from 'react-content-loader'
 
 const scrollStyles = {
     height: document.documentElement.clientHeight - 48,
@@ -52,19 +53,17 @@ class MovieListPage extends React.Component{
 
     render() {
         const themeColor = this.props.themeStore.themeColor
-        const {title,scrollRefreshing,itemsDataSource} = this.props.listStore
-
-        return  (
-            <div className={styles.container}>
-                <div className={styles.header} style={{backgroundColor: themeColor}}>
-                    <div onClick={this.props.history.goBack} className={'iconfont base-small-circle-icon '+styles.back}>&#xeb09;</div>
-                    <div className={'base-title'}>{title}</div>
-                </div>
+        const {title,scrollRefreshing,itemsDataSource,items} = this.props.listStore
+        let contextView;
+        if (items.length == 0) {
+            contextView = this.renderLoadingView()
+        } else {
+            contextView = (
                 <ListView
                     id={'list-page-lv'}
                     dataSource={itemsDataSource}
                     renderRow={this.renderItemView}
-                    pageSize={6}
+                    pageSize={4}
                     useBodyScroll
                     className={styles["item-swipe"]}
                     scrollEventThrottle={60}
@@ -79,6 +78,43 @@ class MovieListPage extends React.Component{
                             onRefresh={this.onScrollRefresh}/>
                     }
                 />
+            )
+        }
+
+        return  (
+            <div className={styles.container}>
+                <div className={styles.header} style={{backgroundColor: themeColor}}>
+                    <div onClick={this.props.history.goBack} className={'iconfont base-small-circle-icon '+styles.back}>&#xeb09;</div>
+                    <div className={'base-title'}>{title}</div>
+                </div>
+                {contextView}
+            </div>
+        )
+    }
+
+    renderLoadingView = () => {
+        return (
+            <div style={{overflow: 'hidden',flex: '1',marginTop: '48px'}}>
+                <div style={{borderBottomWidth: '1px',borderBottomColor: '#f0f0f0'}}>
+                    <ContentLoader height={'200'}>
+                        <rect width={'100%'} height={'100%'}/>
+                    </ContentLoader>
+                </div>
+                <div style={{borderBottomWidth: '1px',borderBottomColor: '#f0f0f0'}}>
+                    <ContentLoader height={'200'}>
+                        <rect width={'100%'} height={'100%'}/>
+                    </ContentLoader>
+                </div>
+                <div style={{borderBottomWidth: '1px',borderBottomColor: '#f0f0f0'}}>
+                    <ContentLoader height={'200'}>
+                        <rect width={'100%'} height={'100%'}/>
+                    </ContentLoader>
+                </div>
+                <div style={{borderBottomWidth: '1px',borderBottomColor: '#f0f0f0'}}>
+                    <ContentLoader height={'200'}>
+                        <rect width={'100%'} height={'100%'}/>
+                    </ContentLoader>
+                </div>
             </div>
         )
     }

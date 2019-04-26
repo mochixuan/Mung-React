@@ -54,7 +54,7 @@ class MainPage extends React.Component{
                 <div className={styles.header} style={themeBgObj}>
                     <Link to={'/theme'} className={'iconfont base-small-circle-icon'}>&#60140;</Link>
                     <div className={'base-title'}>Mung</div>
-                    <i className={'iconfont base-small-circle-icon'}>&#60158;</i>
+                    <Link to={'/search'} className={'iconfont base-small-circle-icon'}>&#60158;</Link>
                 </div>
 
                 <PullToRefresh

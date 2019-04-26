@@ -1,12 +1,10 @@
-import {observable,action} from 'mobx'
+import {observable,action,computed} from 'mobx'
 import {ListView} from "antd-mobile/lib/index";
 import {requestListMovie,BASE_URL} from '../data/net/HttpMovie'
 import {LOAD_ERROR, CateItems, NONE} from "../data/const/Constant";
 import {showToast} from "../utils/Util";
 import {CODE_SUCCESS} from "../data/net/HttpBase";
 import {runInAction} from "mobx/lib/mobx";
-
-const FIXED_COUNT = 16;
 
 export default class ListStore {
 
@@ -15,9 +13,8 @@ export default class ListStore {
     @observable curPage = 0
     @observable totalPage = -1
     @observable items = []
-    @observable itemsDataSource = new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-    });
+
+    ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
     @action initData = (title) => {
         this.title = title
@@ -25,9 +22,6 @@ export default class ListStore {
         this.curPage = 0
         this.totalPage = -1
         this.items = []
-        this.itemsDataSource = new ListView.DataSource({
-            rowHasChanged: (row1, row2) => row1 !== row2,
-        });
     }
 
     @action requestData = () => {
@@ -60,14 +54,19 @@ export default class ListStore {
                 break
         }
 
-        requestListMovie(url,this.curPage+1,16)
+        requestListMovie(url,this.curPage+1,16,this.title)
             .then((result)=>{
                 console.log('requestListMovie',result)
                 if (result.code === CODE_SUCCESS && result.subjects) {
                     runInAction(()=>{
+                        const subjects = result.subjects.map((item,index)=>{
+                            if (item.subject) {
+                                return item.subject
+                            } else {
+                                return item
+                            }
+                        })
                         this.items = [...this.items,...result.subjects]
-                        console.log('requestListMovie',this.items.length)
-                        this.itemsDataSource = this.itemsDataSource.cloneWithRows(this.items)
                         this.scrollRefreshing = false
 
                         if (!result.start || !result.total) {
@@ -78,6 +77,10 @@ export default class ListStore {
                             this.totalPage = result.total
                         }
 
+                        if (this.totalPage == 0) {
+                            showToast("没有数据",NONE)
+                        }
+
                     })
                 } else {
                     showToast(result.error,LOAD_ERROR)
@@ -86,6 +89,10 @@ export default class ListStore {
                     })
                 }
             })
+    }
+
+    @computed get itemsDataSource() {
+        return this.ds.cloneWithRows(this.items.slice())
     }
 
 
