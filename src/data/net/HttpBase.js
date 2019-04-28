@@ -84,6 +84,8 @@ const errorAnalysis = (result) => {
         case NEED_PERMISSION:
             result.error = "数据未授权";
             break;
+        default:
+            break
     }
 
     return result

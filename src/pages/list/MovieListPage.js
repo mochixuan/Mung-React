@@ -22,7 +22,7 @@ class MovieListPage extends React.Component{
     componentWillMount() {
         const params = analysisUrl(this.props.location.search)
         const {title,initData} = this.props.listStore
-        if (title == params.title) {
+        if (title === params.title) {
             isReInit = false
         } else {
             isReInit = true
@@ -55,7 +55,7 @@ class MovieListPage extends React.Component{
         const themeColor = this.props.themeStore.themeColor
         const {title,scrollRefreshing,itemsDataSource,items} = this.props.listStore
         let contextView;
-        if (items.length == 0) {
+        if (items.length === 0) {
             contextView = this.renderLoadingView()
         } else {
             contextView = (
@@ -124,11 +124,11 @@ class MovieListPage extends React.Component{
             <div className={styles.item} onClick={()=>{
                 enterDetailPage(this.props.history,item.id)
             }}>
-                <img className={styles["item-img"]} src={item.images.large}/>
+                <img className={styles["item-img"]} src={item.large} alt={''}/>
                 <div className={styles["item-content"]}>
                     <div className={styles["item-content-title"]}>{item.title}</div>
-                    <div className={styles["item-content-text"]}>导演: {(item.directors[0]!=null?item.directors[0].name:"未知")}</div>
-                    <div className={styles["item-content-text"]}>主演: {item.casts.map((data,i)=>data.name).join(' ')}</div>
+                    <div className={styles["item-content-text"]}>导演: {(item.directors)}</div>
+                    <div className={styles["item-content-text"]}>主演: {item.casts}</div>
                     <div className={styles["item-content-text"]}>{item.year}</div>
                     <div className={styles["item-content-star"]}>
                         <ReactStars
@@ -137,8 +137,8 @@ class MovieListPage extends React.Component{
                             color1={color_e6}
                             color2={color_fc3}
                             edit={false}
-                            value={item.rating.average/2} />
-                        <div className={styles["item-content-star-text"]}>{item.rating.average.toFixed(1)}</div>
+                            value={item.average/2} />
+                        <div className={styles["item-content-star-text"]}>{item.average.toFixed(1)}</div>
                     </div>
                 </div>
             </div>

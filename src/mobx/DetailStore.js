@@ -1,4 +1,4 @@
-import {action, observable, runInAction} from 'mobx'
+import {action, observable, runInAction,computed} from 'mobx'
 import {requestMovieDetail, requestMovieDiscuss, requestMoviePhotos} from '../data/net/HttpMovie'
 import {CODE_SUCCESS} from "../data/net/HttpBase";
 import {LOAD_ERROR, LOAD_SUCCESS, LOADING, NONE} from "../data/const/Constant";
@@ -19,9 +19,11 @@ export default class DetailStore {
     @observable curPage = 0
     @observable totalPage = -1
     @observable discussItems = []
-    @observable discussDataSource = new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-    });
+    ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
+    @computed get discussDataSource() {
+        return this.ds.cloneWithRows(this.discussItems.slice())
+    }
 
     //为了实现返回时界面不重新加载功能
     @action initData = () => {
@@ -34,15 +36,11 @@ export default class DetailStore {
         this.curPage = 0
         this.totalPage = -1
         this.discussItems = []
-        this.discussDataSource = new ListView.DataSource({
-            rowHasChanged: (row1, row2) => row1 !== row2,
-        });
     }
 
     @action requestDetailBaseData = (id) => {
         requestMovieDetail(id)
             .then((result)=>{
-                console.warn(result)
                 if (result.code === CODE_SUCCESS) {
                     runInAction(()=>{
                         this.baseData = result
@@ -106,7 +104,6 @@ export default class DetailStore {
                         this.totalPage = result.total
                         this.scrollRefreshing = false
                         this.discussItems = [...this.discussItems,...result.comments]
-                        this.discussDataSource = this.discussDataSource.cloneWithRows(this.discussItems)
                     })
                 } else {
                     showToast(result.error,LOAD_ERROR)

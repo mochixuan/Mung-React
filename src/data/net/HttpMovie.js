@@ -15,8 +15,8 @@ export const requestMovieHot = (start,count) => BaseGetRequest(`${BASE_URL+MOVIE
 
 export const requestMovieDetail = (id) => BaseGetRequest(BASE_URL+MOVIE_DETAIL_URL+id)
 
-export const requestMoviePhotos = (id,count) => BaseGetRequest(BASE_URL+MOVIE_DETAIL_URL+id+'/photos'+"?count="+count+"&"+KEY_APP_ID.name+"="+KEY_APP_ID.value)
+export const requestMoviePhotos = (id,count) => BaseGetRequest(`${BASE_URL+MOVIE_DETAIL_URL+id}/photos?count=${count}&${KEY_APP_ID.name}=${KEY_APP_ID.value}`)
 
-export const requestMovieDiscuss = (id,start,count) => BaseGetRequest(BASE_URL+MOVIE_DETAIL_URL+id+"/comments"+"?start="+start+"&count="+count+"&"+KEY_APP_ID.name+"="+KEY_APP_ID.value)
+export const requestMovieDiscuss = (id,start,count) => BaseGetRequest(`${BASE_URL+MOVIE_DETAIL_URL+id}/comments?start=${start}&count=${count}&${KEY_APP_ID.name}=${KEY_APP_ID.value}`)
 
 export const requestListMovie = (url,start,count,query) => BaseGetRequest(url+"?start="+start+"&count="+count+"&q="+query+"&"+KEY_APP_ID.name+"="+KEY_APP_ID.value)

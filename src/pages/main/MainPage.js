@@ -158,6 +158,7 @@ class MainPage extends React.Component{
                         }}
                     >
                         <img
+                            alt={item.title}
                             src={item.images.large}
                             className={styles["banner-item-icon"]}
                         />
@@ -165,6 +166,7 @@ class MainPage extends React.Component{
                             <div className={`base-white-18 ${textMarginClass}`}>{item.title}</div>
                             <div className={`${styles["banner-item-right-director"]} ${textMarginClass}`}>
                                 <img
+                                    alt={''}
                                     src={item.directors[0].avatars.small}
                                     className={styles["banner-item-icon"]}
                                 />
@@ -226,7 +228,7 @@ class MainPage extends React.Component{
                 <div className={styles["cate-item"]} key={item.title+index} onClick={()=>{
                     enterListPage(this.props.history,item.title)
                 }}>
-                    <i className={'iconfont'+" "+styleClassNames[index]}>{item.icon}</i>
+                    <i className={`iconfont ${styleClassNames[index]}`}>{item.icon}</i>
                     <span>{item.title}</span>
                 </div>
             )
@@ -244,11 +246,12 @@ class MainPage extends React.Component{
                 }}
             >
                 <img
+                    alt={''}
                     src={item.images.large}
                     className={styles["list-img"]}
                 />
                 <div className={styles["list-desc"]} style={themeBgObj}>
-                    <span className={styles["list-desc-title"]+' '+'single-line-text'}>{item.title}</span>
+                    <span className={`${styles["list-desc-title"]} single-line-text`}>{item.title}</span>
                     <div className={styles["list-desc-star"]}>
                         <ReactStars
                             count={5}

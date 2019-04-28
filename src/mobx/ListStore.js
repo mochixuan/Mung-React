@@ -56,20 +56,26 @@ export default class ListStore {
 
         requestListMovie(url,this.curPage+1,16,this.title)
             .then((result)=>{
-                console.log('requestListMovie',result)
                 if (result.code === CODE_SUCCESS && result.subjects) {
                     runInAction(()=>{
+                        // Mobx内部有问题，把无用数据剔除也算优化下吧
                         const subjects = result.subjects.map((item,index)=>{
-                            if (item.subject) {
-                                return item.subject
-                            } else {
-                                return item
-                            }
+                            const newItem = {}
+
+                            if (item.subject) item = item.subject
+
+                            newItem.large = item.images.large
+                            newItem.title = item.title
+                            newItem.directors = item.directors[0] != null ? item.directors[0].name:"未知"
+                            newItem.casts = item.casts.map((data,i)=>data.name).join(' ')
+                            newItem.year = item.year
+                            newItem.average = item.rating.average
+                            return newItem
                         })
-                        this.items = [...this.items,...result.subjects]
+                        this.items = [...this.items,...subjects]
                         this.scrollRefreshing = false
 
-                        if (!result.start || !result.total) {
+                        if (result.start === undefined || result.total === undefined) {
                             this.curPage = this.curPage+1
                             this.totalPage = 1 //到底了
                         } else {
@@ -77,7 +83,7 @@ export default class ListStore {
                             this.totalPage = result.total
                         }
 
-                        if (this.totalPage == 0) {
+                        if (this.totalPage === 0) {
                             showToast("没有数据",NONE)
                         }
 

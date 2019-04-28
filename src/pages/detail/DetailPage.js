@@ -1,13 +1,12 @@
 import React from 'react'
 import styles from './detailpage.scss'
 import {inject, observer} from "mobx-react/index";
-import {Link} from 'react-router-dom'
 import $ from 'jquery'
 import ReactStars from 'react-stars'
 import {color_e6, color_fc3} from "../../styles/colors";
 import {renderCommonIndicator, renderReloadingView, renderScrollIndicator} from '../../styles/baseView'
 import {LOAD_ERROR, LOAD_SUCCESS, LOADING} from "../../data/const/Constant";
-import {PullToRefresh,ListView} from 'antd-mobile'
+import {ListView, PullToRefresh} from 'antd-mobile'
 
 const SECTION_FILMMAKER_COUNT = 6
 
@@ -37,8 +36,6 @@ class DetailPage extends React.Component{
         const themeColor = this.props.themeStore.themeColor
         $("#detail-page-header").css("background",`linear-gradient(to bottom, ${themeColor}, white)`)
 
-
-
         const {requestDetailBaseData,requestMovieStills,requestMovieDiscuss,baseData} = this.props.detailStore
         //初始化请求
         if (!baseData) {
@@ -60,7 +57,7 @@ class DetailPage extends React.Component{
 
     handleScroll = () => {
         const scrollY = window.scrollY
-        if (scrollY < 220) {
+        if (scrollY < 300) {
             const changeHeaderOpacity = this.props.detailStore.changeHeaderOpacity
             changeHeaderOpacity(scrollY <= 200 ? scrollY/200 : 1)
         }
@@ -81,6 +78,7 @@ class DetailPage extends React.Component{
                 </div>
                 <div className={styles.header} id={'detail-page-header'}>
                     <img
+                        alt={''}
                         src={baseData ? baseData.images.large : null}
                         className={styles["header-img"]}/>
                 </div>
@@ -141,6 +139,7 @@ class DetailPage extends React.Component{
                         return (
                             <div key={item.image+index}>
                                 <img
+                                    alt={''}
                                     src={item.image}
                                     className={styles["content-stills-swipe-img"]}/>
                             </div>
@@ -154,6 +153,8 @@ class DetailPage extends React.Component{
                 }
                 stillsView = renderReloadingView(themeColor,true,reLoadPhotos)
                 stillsBgColor = '#9D9D9D'
+                break
+            default:
                 break
         }
 
@@ -178,7 +179,7 @@ class DetailPage extends React.Component{
                                 color2={color_fc3}
                                 edit={false}
                                 value={baseData.rating.average/2} />
-                            <div className={styles["content-desc-info-right-desc"]}>{baseData.ratings_count == 0 ? '暂无评论' : baseData.ratings_count+'人'}</div>
+                            <div className={styles["content-desc-info-right-desc"]}>{baseData.ratings_count === 0 ? '暂无评论' : baseData.ratings_count+'人'}</div>
                         </div>
                     </div>
                     <div className={styles["content-desc-star"]}>
@@ -210,7 +211,7 @@ class DetailPage extends React.Component{
                             baseData.casts.map((item,index)=>{
                                 return (
                                     <div key={index+''} className={styles["content-filmmaker-item"]}>
-                                        <img src={item.avatars.large} className={styles["content-filmmaker-item-img"]}/>
+                                        <img src={item.avatars.large} className={styles["content-filmmaker-item-img"]} alt={''}/>
                                         <div className={styles["content-filmmaker-item-text"]}>{item.name}</div>
                                     </div>
                                 )
@@ -236,6 +237,7 @@ class DetailPage extends React.Component{
         return (
             <div className={styles["discuss-item"]}>
                 <img
+                    alt={''}
                     style={{borderColor: themeColor}}
                     className={styles["discuss-item-icon"]}
                     src={item.author.avatar}/>

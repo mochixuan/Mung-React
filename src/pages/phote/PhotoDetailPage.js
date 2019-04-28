@@ -61,13 +61,14 @@ class PhotoDetailPage extends React.Component{
     }
 
     renderBannerView = () => {
-        if (this.state.photoItems.length == 0) {
+        if (this.state.photoItems.length === 0) {
             return null
         } else {
             return this.state.photoItems.map((item,index)=>{
                 return (
                     <div key={index+''} className={styles["banner-item"]}>
                         <img
+                            alt={''}
                             src={item.image}
                             className={styles["banner-item-img"]}/>
                     </div>

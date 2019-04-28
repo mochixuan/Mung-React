@@ -28,4 +28,28 @@
       color: #444444;
     }
   }
+
+  .recommend {
+
+    display: flex;
+    padding: 15px;
+    flex-wrap: wrap;
+
+    .recommend-text {
+      width: calc(25% - 10px);
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      margin-bottom: 18px;
+      background-color: #fff;
+      color: #9D9D9D;
+      border-radius: 20px;
+      margin-left: 10px;
+
+      &:active {
+        background-color: rgba(0,0,0,.1);
+      }
+    }
+  }
+
 }

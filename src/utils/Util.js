@@ -19,6 +19,10 @@ export const showToast = (data,state) => {
 }
 
 export const enterDetailPage = (history,id) => {
+    if (id === undefined) {
+        showToast('数据ID错误',LOAD_ERROR)
+        return
+    }
     history.push(`detail/${id}`)
 }
 
