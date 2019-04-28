@@ -70,6 +70,7 @@ export default class ListStore {
                             newItem.casts = item.casts.map((data,i)=>data.name).join(' ')
                             newItem.year = item.year
                             newItem.average = item.rating.average
+                            newItem.id = item.id
                             return newItem
                         })
                         this.items = [...this.items,...subjects]

@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './detailpage.scss'
-import {inject, observer} from "mobx-react/index";
+import {inject, observer} from "mobx-react";
 import $ from 'jquery'
 import ReactStars from 'react-stars'
 import {color_e6, color_fc3} from "../../styles/colors";

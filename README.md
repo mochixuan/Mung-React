@@ -1,68 +1,48 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Mung-React
 
-## Available Scripts
+---
+---
+## [React版Mung](https://github.com/mochixuan/Mung-React)
+## [React-Native版Mung](https://github.com/mochixuan/Mung)
+## [Flutter版Mung](https://github.com/mochixuan/Mung-Flutter)
 
-In the project directory, you can run:
+---
+---
 
-### `npm start`
+> npm start //运行
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 1. Mung-React：是一个基于React编写，使用豆瓣开源API开发的一个项目。
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+![image](https://github.com/mochixuan/Mung/blob/master/Ui/ui/ic_launcher.png?raw=true)
 
-### `npm test`
+-------------------
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 2. 功能概述
 
-### `npm run build`
+- **数据保存** ：支持断网加载缓存数据。
+- **主题换肤** ：现在只支持切换主题颜色，本项目没几张图片。
+- **查看电影详情** ：支持查看电影详情包括评论。
+- **一键搜索**： 支持标签和语句查找相关的电影。
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+-------------------
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### 3. 运行结果图
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![image](https://github.com/mochixuan/Mung/blob/master/Ui/ppt/icon_ppt1.png?raw=true)
+![image](https://github.com/mochixuan/Mung/blob/master/Ui/ppt/icon_ppt2.png?raw=true)
 
-### `npm run eject`
+-------------------
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 4. 使用到的框架
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **antd-mobile** ：阿里的UI库，主要用到里面列表显示、Toast提醒。
+- **Mobx** ：实现状态管理。
+- **react-loading** ：加载进度条。
+- **react-router-dom** ：路由管理。
+- **react-transition-group** ：实现动画效果。
+- **SCSS**： 样式编写方便、清晰。
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+-------------------
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### 5. 总结
+这是一个React项目主要，之前写过一个纯React-Native项目Mung没有使用状态管理库和UI库(除渐变库),相比React-Native,现在React水平还是比较一般，尤其是webpack、babel配置等方面，后续有时间还得多看看。里面还有一个ant-design按需加载的问题，使用react-app-rewired配置后和scss发生冲突，有时间再改下。
