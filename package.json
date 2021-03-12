@@ -46,7 +46,7 @@
     "react": "^16.8.6",
     "react-app-polyfill": "^0.2.2",
     "react-content-loader": "^4.2.1",
-    "react-dev-utils": "^8.0.0",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^16.8.6",
     "react-loading": "^2.0.3",
     "react-router-dom": "4.3.1",
